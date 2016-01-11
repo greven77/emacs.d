@@ -1,0 +1,1 @@
+("~/.emacs.d/" "/learning/wikicat/" "/learning/hello_rails/" "/learning/gemgem-trbrb/" "/learning/ticketee/" "~/ticketee/" "/learning/getting-MEAN/" "/vagrant/learning/getting-MEAN/" "/vagrant/snapterest/")
