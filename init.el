@@ -1,4 +1,4 @@
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/elpa")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
@@ -18,6 +18,9 @@
 (package-initialize)
 (load-theme 'monokai t)
 
+(require 'less-css-mode)
+(add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
+
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'load-path "~/.emacs.d/jade-mode")
 (require 'sws-mode)
@@ -29,6 +32,7 @@
 (setq web-mode-enable-auto-pairing nil)
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ejs\\'" . web-mode))
 
 (require 'smartparens)
 (require 'smartparens-config)
@@ -61,9 +65,14 @@
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 (add-hook 'web-mode-hook 'emmet-mode)
 
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-hook 'yaml-mode-hook
+	  '(lambda ()
+	     (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 (setq column-number-mode t)
 (setq inhibit-startup-message t)
-(setq show-trailing-whitespace t)
+(setq-default show-trailing-whitespace t)
 (setq auto-save-default nil)
 (setq backup-inhibited t)
 
@@ -71,6 +80,9 @@
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 (add-hook 'projectile-mode-hook 'projectile-rails-on)
+
+(require 'ensime)
+(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
 			  ("marmalade" . "https://marmalade-repo.org/packages/")
@@ -83,16 +95,59 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(js2-basic-offset 2)
- '(js2-global-externs (list "$" "window" "module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
- '(smartparens-global-mode t)
+ '(comint-buffer-maximum-size 20000)
+ '(comint-move-point-for-output nil)
  '(comint-scroll-show-maximum-output t)
  '(comint-scroll-to-bottom-on-input t)
- '(comint-scroll-to-bottom-on-output nil)
- '(comint-buffer-maximum-size 20000)
- '(web-mode-markup-indent-offset 2)
+ '(compilation-message-face (quote default))
+ '(custom-safe-themes
+   (quote
+    ("094f2c4dc01b7ebe70075ab7dba2e3f0fbab788af38ec574b2939c9454fed996" default)))
+ '(fci-rule-color "#49483E")
+ '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
+ '(highlight-tail-colors
+   (quote
+    (("#49483E" . 0)
+     ("#67930F" . 20)
+     ("#349B8D" . 30)
+     ("#21889B" . 50)
+     ("#968B26" . 60)
+     ("#A45E0A" . 70)
+     ("#A41F99" . 85)
+     ("#49483E" . 100))))
+ '(indent-tabs-mode nil)
+ '(js2-basic-offset 2)
+ '(js2-global-externs
+   (list "$" "window" "module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+ '(magit-diff-use-overlays nil)
+ '(smartparens-global-mode t)
+ '(tab-width 2)
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#F92672")
+     (40 . "#CF4F1F")
+     (60 . "#C26C0F")
+     (80 . "#E6DB74")
+     (100 . "#AB8C00")
+     (120 . "#A18F00")
+     (140 . "#989200")
+     (160 . "#8E9500")
+     (180 . "#A6E22E")
+     (200 . "#729A1E")
+     (220 . "#609C3C")
+     (240 . "#4E9D5B")
+     (260 . "#3C9F79")
+     (280 . "#A1EFE4")
+     (300 . "#299BA6")
+     (320 . "#2896B5")
+     (340 . "#2790C3")
+     (360 . "#66D9EF"))))
+ '(vc-annotate-very-old-color nil)
  '(web-mode-css-indent-offset 2)
- )
+ '(web-mode-markup-indent-offset 2)
+ '(weechat-color-list
+   (unspecified "#272822" "#49483E" "#A20C41" "#F92672" "#67930F" "#A6E22E" "#968B26" "#E6DB74" "#21889B" "#66D9EF" "#A41F99" "#FD5FF0" "#349B8D" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -109,3 +164,5 @@
 ;; make ctrl-Z redo
 (defalias 'redo 'undo-tree-redo)
 (global-set-key (kbd "C-M-z") 'redo)
+;;(setq tab-width 2
+;;            indent-tabs-mode nil)
