@@ -231,5 +231,6 @@
 ;; make ctrl-Z redo
 (defalias 'redo 'undo-tree-redo)
 (global-set-key (kbd "C-M-z") 'redo)
-;;(setq tab-width 2
-;;            indent-tabs-mode nil)
+(setq c-basic-indent 2)
+(setq tab-width 2)
+(setq indent-tabs-mode nil)
