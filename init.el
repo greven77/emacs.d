@@ -40,6 +40,11 @@
 (add-to-list 'auto-mode-alist '("\\.es6\\'"    . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
+(add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+(add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+(add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+(add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
+
 (setq web-mode-content-types-alist
       '(("jsx" . "\\.js[x]?\\'")
                 ("javascript" . "\\.es6?\\'")))
@@ -184,6 +189,7 @@
      ("#49483E" . 100))))
  '(indent-tabs-mode nil)
  '(js2-basic-offset 2)
+ '(js2-bounce-indent-p t)
  '(js2-global-externs
    (list "$" "window" "module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
  '(magit-diff-use-overlays nil)
