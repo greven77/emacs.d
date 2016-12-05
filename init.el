@@ -14,7 +14,6 @@
 (add-hook 'ruby-mode-hook 'robe-mode)
 (add-hook 'robe-mode-hook 'ac-robe-setup)
 
-
 (setq package-enable-at-startup nil)
 (package-initialize)
 (load-theme 'monokai t)
@@ -140,13 +139,38 @@
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			  ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa-milkbox" . "http://melpa.milkbox.net/packages/")
 			  ("melpa" . "https://melpa.org/packages/")))
 
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
 
 (require 'web-beautify) ;; Not necessary if using ELPA package
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+(setq typescript-indent-level 2)
+;; format options
+(setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+
 (eval-after-load 'js2-mode
   '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
 ;; Or if you're using 'js-mode' (a.k.a 'javascript-mode')
